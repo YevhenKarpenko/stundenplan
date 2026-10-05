@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="ru">
+<html lang="de">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Stundenplan Filmakademie – обновляется автоматически каждые 2 часа">
+<meta name="description" content="Filmakademie Stundenplan – automatically updated every 2 hours">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect x=%223%22 y=%225%22 width=%2226%22 height=%2224%22 rx=%225%22 fill=%22%232c7a66%22/%3E%3Crect x=%223%22 y=%225%22 width=%2226%22 height=%227%22 rx=%223%22 fill=%22%231c4f42%22/%3E%3C/svg%3E">
 <title>Filmakademie Stundenplan</title>
 <script>try { const k = JSON.parse(localStorage.getItem("fa.skin") || "null"); if (k && k !== "auto") document.documentElement.setAttribute("data-skin", k); } catch (e) {}</script>
@@ -263,6 +263,14 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
   --c0b: #0f3a3a; --c0f: #5ffff0; --c1b: #1a2552; --c1f: #8fb4ff; --c2b: #36185a; --c2f: #d59bff; --c3b: #4a1343; --c3f: #ff8ef3;
   --c4b: #3d3410; --c4f: #ffe95c; --c5b: #0f3326; --c5f: #6dffb0; --c6b: #4a1a1f; --c6f: #ff8a8a; --c7b: #22234d; --c7f: #b5b8ff; }
 
+/* language button + menu */
+.langbtn { height: 30px; min-width: 38px; padding: 0 8px; margin-right: 2px; border-radius: 8px; border: 1.6px solid var(--muted); color: var(--fg); font-size: 12.5px; font-weight: 600; letter-spacing: .04em; flex: none; }
+.lg-list { display: grid; gap: 8px; }
+.lg { display: flex; align-items: center; justify-content: space-between; height: 54px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--line); font-size: 16px; text-align: left; }
+.lg small { font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: .05em; }
+.lg[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); color: var(--accent); font-weight: 600; }
+.lg[aria-pressed="true"] small { color: var(--accent); }
+
 /* theme menu */
 .th-title { font-size: 19px; font-weight: 600; margin: 2px 0 14px; }
 .th-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
@@ -281,33 +289,34 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
 <div class="app">
   <header class="top" id="top">
     <div class="row">
-      <button class="month" id="month" aria-expanded="false" aria-controls="mini"><span id="month-txt">Расписание</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></button>
+      <button class="month" id="month" aria-expanded="false" aria-controls="mini"><span id="month-txt">Stundenplan</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></button>
       <span class="sp"></span>
-      <button class="ib" id="btn-theme" aria-label="Тема оформления"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1.2" fill="currentColor"/><circle cx="10.5" cy="7.2" r="1.2" fill="currentColor"/><circle cx="15" cy="7.5" r="1.2" fill="currentColor"/></svg></button>
-      <button class="ib" id="btn-search" aria-pressed="false" aria-label="Поиск"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
-      <button class="todaybtn" id="today" aria-label="Сегодня"><span id="today-n">–</span></button>
+      <button class="langbtn" id="btn-lang" aria-label="Sprache"><span id="lang-code">DE</span></button>
+      <button class="ib" id="btn-theme" aria-label="Design"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1.2" fill="currentColor"/><circle cx="10.5" cy="7.2" r="1.2" fill="currentColor"/><circle cx="15" cy="7.5" r="1.2" fill="currentColor"/></svg></button>
+      <button class="ib" id="btn-search" aria-pressed="false" aria-label="Suche"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <button class="todaybtn" id="today" aria-label="Heute"><span id="today-n">–</span></button>
     </div>
-    <div class="search" id="search-box" hidden><input id="q" type="search" placeholder="Предмет, аудитория, преподаватель" autocomplete="off" enterkeyhint="search"></div>
+    <div class="search" id="search-box" hidden><input id="q" type="search" placeholder="Kurs, Raum, Dozent*in" autocomplete="off" enterkeyhint="search"></div>
     <div class="mini" id="mini" hidden></div>
     <div class="strip" id="strip"></div>
     <div class="tabs" id="tabs">
-      <div class="seg" role="group" aria-label="Вид">
-        <button data-view="day" aria-pressed="true">День</button>
-        <button data-view="list" aria-pressed="false">Список</button>
+      <div class="seg" id="seg" role="group" aria-label="Ansicht">
+        <button data-view="day" aria-pressed="true">Tag</button>
+        <button data-view="list" aria-pressed="false">Liste</button>
       </div>
       <span class="sp"></span>
-      <button class="filter" id="f-mand" aria-pressed="false"><i></i>Обязательные</button>
+      <button class="filter" id="f-mand" aria-pressed="false"><i></i><span id="f-mand-t">Pflicht</span></button>
     </div>
   </header>
 
-  <main id="main"><div class="state"><h2>Загружаю расписание…</h2><p>Через секунду здесь появятся занятия.</p></div></main>
+  <main id="main"><div class="state"><h2 id="load-h">Stundenplan wird geladen…</h2><p id="load-p">Gleich erscheinen hier deine Termine.</p></div></main>
 
   <footer>
-    <div id="sync">Синхронизация с ev3nts каждые 2 часа.</div>
+    <div id="sync"></div>
     <div class="export" id="export">
-      <a id="gc-sub" href="#" target="_blank" rel="noopener">Подписаться в Google Календаре</a>
-      <a href="Filmakademie-alle.ics">Все занятия (.ics)</a>
-      <a href="Filmakademie-Pflicht.ics">Только обязательные (.ics)</a>
+      <a id="gc-sub" href="#" target="_blank" rel="noopener">In Google Kalender abonnieren</a>
+      <a id="ics-all" href="Filmakademie-alle.ics">Alle Termine (.ics)</a>
+      <a id="ics-mand" href="Filmakademie-Pflicht.ics">Nur Pflicht (.ics)</a>
     </div>
   </footer>
 </div>
@@ -318,10 +327,86 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
 (() => {
   const TZ = "Europe/Berlin";
   const SRC = "https://ev3nts.filmakademie.de/user/student/";
-  const WD_S = ["Вс","Пн","Вт","Ср","Чт","Пт","Сб"];
-  const WD_L = ["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"];
-  const MON_N = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
-  const MON_G = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+  // ---------- language ----------
+  const LANGS = { de: { name: "Deutsch", loc: "de-DE" }, en: { name: "English", loc: "en-GB" }, uk: { name: "Українська", loc: "uk-UA" } };
+  const T = {
+    de: {
+      doc: "Filmakademie Stundenplan", title: "Stundenplan", lang_aria: "Sprache", lang_title: "Sprache", theme_aria: "Design", search_aria: "Suche", today_aria: "Heute",
+      search_ph: "Kurs, Raum, Dozent*in", view_aria: "Ansicht", day: "Tag", list: "Liste", mand: "Pflicht",
+      load_h: "Stundenplan wird geladen…", load_p: "Gleich erscheinen hier deine Termine.",
+      sub_gc: "In Google Kalender abonnieren", ics_all: "Alle Termine (.ics)", ics_mand: "Nur Pflicht (.ics)",
+      prev_m: "Vorheriger Monat", next_m: "Nächster Monat",
+      now_until: (t) => `Jetzt · bis ${t}`, in_dur: (d) => `In ${d}`, min: "Min.", hr: "Std.",
+      days: { one: "Tag", other: "Tage" }, classes: { one: "Termin", other: "Termine" }, slots: { one: "Slot", other: "Slots" }, hits: { one: "Treffer", other: "Treffer" },
+      wk: "KW", free_past: "Keine Termine", free_day: "Freier Tag", free_mand: "Keine Pflichttermine.", free_none: "An diesem Tag steht nichts an.", next_lbl: "Nächster Termin:",
+      list_none_h: "Keine weiteren Termine", list_none_p: "In ev3nts ist noch nichts geplant.", more: "Mehr anzeigen",
+      none_h: "Nichts gefunden", none_p: "Versuch es mit einem Teil des Titels, einer Raumnummer oder einem Nachnamen.",
+      cx_chip: "abgesagt", cx_tag: "Abgesagt", req_tag: "Pflicht", opt_tag: "Freiwillig", slots_each: (n, w, m) => `${n} ${w} à ${m} Min.`,
+      close: "Schließen", req_for: "Pflicht für:", to_gcal: "In Google Kalender", open_ev: "In ev3nts öffnen",
+      theme_title: "Design", theme_note: "„Auto“ folgt dem Design deines Handys. Die Auswahl wird auf diesem Gerät gespeichert.",
+      skins: { auto: "Auto", light: "Hell", dark: "Dunkel", pink: "Rosa", barbie: "Barbie", lavender: "Lavendel", mint: "Minze", film: "Film", neon: "Neon" },
+      foot: (a, c) => `Stundenplan zuletzt geändert: ${a} · ${c} · ev3nts wird alle 2 Stunden geprüft`, foot_err: (a, e) => ` · Letzte Prüfung (${a}) fehlgeschlagen: ${e}`,
+      fail_h: "Stundenplan konnte nicht geladen werden", fail_p: "Prüf deine Internetverbindung und lade die Seite neu.",
+    },
+    en: {
+      doc: "Filmakademie Schedule", title: "Schedule", lang_aria: "Language", lang_title: "Language", theme_aria: "Theme", search_aria: "Search", today_aria: "Today",
+      search_ph: "Course, room, lecturer", view_aria: "View", day: "Day", list: "List", mand: "Mandatory",
+      load_h: "Loading schedule…", load_p: "Your classes will appear here in a moment.",
+      sub_gc: "Subscribe in Google Calendar", ics_all: "All classes (.ics)", ics_mand: "Mandatory only (.ics)",
+      prev_m: "Previous month", next_m: "Next month",
+      now_until: (t) => `Now · until ${t}`, in_dur: (d) => `In ${d}`, min: "min", hr: "h",
+      days: { one: "day", other: "days" }, classes: { one: "class", other: "classes" }, slots: { one: "slot", other: "slots" }, hits: { one: "result", other: "results" },
+      wk: "Week", free_past: "No classes", free_day: "Free day", free_mand: "No mandatory classes.", free_none: "Nothing is scheduled for this day.", next_lbl: "Next:",
+      list_none_h: "No upcoming classes", list_none_p: "Nothing is planned in ev3nts yet.", more: "Show more",
+      none_h: "No results", none_p: "Try part of a title, a room number or a surname.",
+      cx_chip: "cancelled", cx_tag: "Cancelled", req_tag: "Mandatory", opt_tag: "Optional", slots_each: (n, w, m) => `${n} ${w} of ${m} min`,
+      close: "Close", req_for: "Mandatory for:", to_gcal: "Add to Google Calendar", open_ev: "Open in ev3nts",
+      theme_title: "Theme", theme_note: "“Auto” follows your phone’s theme. Your choice is saved on this device.",
+      skins: { auto: "Auto", light: "Light", dark: "Dark", pink: "Pink", barbie: "Barbie", lavender: "Lavender", mint: "Mint", film: "Film", neon: "Neon" },
+      foot: (a, c) => `Schedule last changed ${a} · ${c} · ev3nts is checked every 2 hours`, foot_err: (a, e) => ` · Last check (${a}) failed: ${e}`,
+      fail_h: "Couldn’t load the schedule", fail_p: "Check your internet connection and reload the page.",
+    },
+    uk: {
+      doc: "Filmakademie — розклад", title: "Розклад", lang_aria: "Мова", lang_title: "Мова", theme_aria: "Тема оформлення", search_aria: "Пошук", today_aria: "Сьогодні",
+      search_ph: "Предмет, аудиторія, викладач", view_aria: "Вигляд", day: "День", list: "Список", mand: "Обов’язкові",
+      load_h: "Завантажую розклад…", load_p: "За мить тут з’являться заняття.",
+      sub_gc: "Підписатися в Google Календарі", ics_all: "Усі заняття (.ics)", ics_mand: "Лише обов’язкові (.ics)",
+      prev_m: "Попередній місяць", next_m: "Наступний місяць",
+      now_until: (t) => `Зараз · до ${t}`, in_dur: (d) => `Через ${d}`, min: "хв", hr: "год",
+      days: { one: "день", few: "дні", many: "днів", other: "дня" }, classes: { one: "заняття", few: "заняття", many: "занять", other: "заняття" },
+      slots: { one: "слот", few: "слоти", many: "слотів", other: "слота" }, hits: { one: "збіг", few: "збіги", many: "збігів", other: "збігу" },
+      wk: "Тиждень", free_past: "Занять не було", free_day: "Вільний день", free_mand: "Обов’язкових занять немає.", free_none: "Цього дня нічого не заплановано.", next_lbl: "Наступне:",
+      list_none_h: "Більше занять немає", list_none_p: "В ev3nts поки нічого не заплановано.", more: "Показати ще",
+      none_h: "Нічого не знайдено", none_p: "Спробуйте частину назви, номер аудиторії або прізвище.",
+      cx_chip: "скасовано", cx_tag: "Скасовано", req_tag: "Обов’язково", opt_tag: "За бажанням", slots_each: (n, w, m) => `${n} ${w} по ${m} хв`,
+      close: "Закрити", req_for: "Обов’язково для:", to_gcal: "До Google Календаря", open_ev: "Відкрити в ev3nts",
+      theme_title: "Тема", theme_note: "«Авто» повторює тему телефона. Вибір зберігається на цьому пристрої.",
+      skins: { auto: "Авто", light: "Світла", dark: "Темна", pink: "Рожева", barbie: "Барбі", lavender: "Лаванда", mint: "М’ята", film: "Плівка", neon: "Неон" },
+      foot: (a, c) => `Розклад востаннє змінився ${a} · ${c} · ev3nts перевіряється кожні 2 години`, foot_err: (a, e) => ` · Остання перевірка (${a}) не вдалася: ${e}`,
+      fail_h: "Не вдалося завантажити розклад", fail_p: "Перевірте інтернет і оновіть сторінку.",
+    },
+  };
+  function detectLang() {
+    for (const x of (navigator.languages?.length ? navigator.languages : [navigator.language || ""]).map(v => String(v).toLowerCase())) {
+      if (x.startsWith("de")) return "de";
+      if (x.startsWith("uk") || x.startsWith("ru")) return "uk";
+      if (x.startsWith("en")) return "en";
+    }
+    return "en";
+  }
+  let lang = null;
+  try { lang = JSON.parse(localStorage.getItem("fa.lang") || "null"); } catch {}
+  if (!LANGS[lang]) lang = detectLang();
+  const t = (k, ...a) => { const v = T[lang][k] ?? T.en[k] ?? k; return typeof v === "function" ? v(...a) : v; };
+  const pl = (n, k) => { const f = T[lang][k]; return f[new Intl.PluralRules(LANGS[lang].loc).select(n)] ?? f.other; };
+  const cnt = (n, k) => `${n} ${pl(n, k)}`;
+  const cap = (x) => x ? x.charAt(0).toLocaleUpperCase(LANGS[lang].loc) + x.slice(1) : x;
+  const FMT = {};
+  const fmt = (o) => { const key = lang + JSON.stringify(o); return FMT[key] ||= new Intl.DateTimeFormat(LANGS[lang].loc, { timeZone: "UTC", ...o }); };
+  const wdS = (s) => cap(fmt({ weekday: "short" }).format(toD(s)).replace(/\.$/, ""));
+  const dayLong = (s) => cap(fmt({ weekday: "long", day: "numeric", month: "long" }).format(toD(s)));
+  const dayShort = (s) => cap(fmt({ weekday: "short", day: "numeric", month: "long" }).format(toD(s)).replace(/^([^\s,]+)\.,?/, "$1,"));
+  const monthName = (s) => cap(fmt({ month: "long" }).format(toD(s)));
   const $ = (id) => document.getElementById(id);
   const ls = {
     get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
@@ -349,12 +434,11 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
     return 1 + Math.round(((d - y) / 864e5 - 3 + ((y.getUTCDay() + 6) % 7)) / 7);
   }
   function dur(m) {
-    if (m < 60) return `${m} мин`;
+    if (m < 60) return `${m} ${t("min")}`;
     const h = Math.floor(m / 60), r = m % 60;
-    if (h < 24) return r ? `${h} ч ${r} мин` : `${h} ч`;
-    const d = Math.round(h / 24); return `${d} ${plural(d, "день", "дня", "дней")}`;
+    if (h < 24) return r ? `${h} ${t("hr")} ${r} ${t("min")}` : `${h} ${t("hr")}`;
+    const d = Math.round(h / 24); return cnt(d, "days");
   }
-  const plural = (n, a, b, c) => { const t = n % 100, u = n % 10; return (t >= 11 && t <= 14) ? c : u === 1 ? a : (u >= 2 && u <= 4) ? b : c; };
 
   // ---------- data ----------
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -387,7 +471,7 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
     const today = now.slice(0, 10);
     $("today-n").textContent = dnum(today);
     const d = toD(S.sel);
-    $("month-txt").textContent = MON_N[d.getUTCMonth()] + (d.getUTCFullYear() !== toD(today).getUTCFullYear() ? " " + d.getUTCFullYear() : "");
+    $("month-txt").textContent = monthName(S.sel) + (d.getUTCFullYear() !== toD(today).getUTCFullYear() ? " " + d.getUTCFullYear() : "");
     document.querySelectorAll(".seg button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.view === S.view)));
     $("f-mand").setAttribute("aria-pressed", String(S.onlyMand));
     $("strip").hidden = S.view !== "day" || !!S.query;
@@ -399,7 +483,7 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
       const mand = evs.filter(e => e.m && !e.x).length, opt = evs.length - mand;
       const dots = [...Array(Math.min(mand, 3))].map(() => `<i class="m"></i>`).join("") + (mand < 3 && opt ? `<i></i>` : "");
       const cls = ["sd", i >= 5 ? "we" : "", day === today ? "tod" : "", day === S.sel ? "sel" : ""].join(" ");
-      h += `<button class="${cls}" data-day="${day}" aria-label="${WD_L[dow(day)]}, ${dnum(day)} ${MON_G[toD(day).getUTCMonth()]}${evs.length ? ", " + evs.length + " " + plural(evs.length, "занятие", "занятия", "занятий") : ""}" aria-current="${day === S.sel ? "date" : "false"}"><span class="w">${WD_S[dow(day)]}</span><span class="n">${dnum(day)}</span><span class="dots">${dots}</span></button>`;
+      h += `<button class="${cls}" data-day="${day}" aria-label="${esc(dayLong(day))}${evs.length ? ", " + cnt(evs.length, "classes") : ""}" aria-current="${day === S.sel ? "date" : "false"}"><span class="w">${wdS(day)}</span><span class="n">${dnum(day)}</span><span class="dots">${dots}</span></button>`;
     }
     $("strip").innerHTML = h;
   }
@@ -409,8 +493,8 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
     if (box.hidden) return;
     const m = S.miniMonth, first = toD(m + "-01"), start = monday(m + "-01");
     const busy = new Set(vis().map(e => e.s.slice(0, 10)));
-    let g = `<div class="mini-h"><button class="ib" data-mini="-1" aria-label="Предыдущий месяц"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button><span>${MON_N[first.getUTCMonth()]} ${first.getUTCFullYear()}</span><button class="ib" data-mini="1" aria-label="Следующий месяц"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></button></div><div class="mini-g">`;
-    for (const w of ["Пн","Вт","Ср","Чт","Пт","Сб","Вс"]) g += `<span class="wd">${w}</span>`;
+    let g = `<div class="mini-h"><button class="ib" data-mini="-1" aria-label="${t("prev_m")}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button><span>${monthName(m + "-01")} ${first.getUTCFullYear()}</span><button class="ib" data-mini="1" aria-label="${t("next_m")}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></button></div><div class="mini-g">`;
+    for (let i = 0; i < 7; i++) g += `<span class="wd">${wdS(add("2024-01-01", i))}</span>`;
     for (let i = 0; i < 42; i++) {
       const d = add(start, i);
       if (i % 7 === 0 && i >= 28 && d.slice(0, 7) !== m) break;
@@ -429,18 +513,18 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
     if (!e) return "";
     const room = e.l?.length ? " · " + esc(e.l[0]) : "";
     return cur
-      ? `<button class="nowcard" data-id="${e.i}"><span class="dot"></span><div><b>${esc(e.t)}</b><small>Сейчас · до ${e.e.slice(11)}${room}</small></div></button>`
-      : `<button class="nowcard" data-id="${e.i}"><span class="dot next"></span><div><b>${esc(e.t)}</b><small>Через ${dur(diffMin(e.s, now))} · ${e.s.slice(11)}${room}</small></div></button>`;
+      ? `<button class="nowcard" data-id="${e.i}"><span class="dot"></span><div><b>${esc(e.t)}</b><small>${t("now_until", e.e.slice(11))}${room}</small></div></button>`
+      : `<button class="nowcard" data-id="${e.i}"><span class="dot next"></span><div><b>${esc(e.t)}</b><small>${t("in_dur", dur(diffMin(e.s, now)))} · ${e.s.slice(11)}${room}</small></div></button>`;
   }
   function renderDay(now) {
     const day = S.sel, today = now.slice(0, 10), evs = on(day);
     const dd = toD(day);
     const n = evs.length;
-    let html = `<div class="dayline"><b>${WD_L[dd.getUTCDay()]}, ${dnum(day)} ${MON_G[dd.getUTCMonth()]}</b><span>${n ? n + " " + plural(n, "занятие", "занятия", "занятий") : ""} · KW ${isoWeek(day)}</span></div>`;
+    let html = `<div class="dayline"><b>${esc(dayLong(day))}</b><span>${n ? cnt(n, "classes") + " · " : ""}${t("wk")} ${isoWeek(day)}</span></div>`;
     html += nowCard(now);
     if (!n) {
       const nxt = vis().find(e => e.s.slice(0, 10) > day && !e.x);
-      html += `<div class="free"><h2>${day < today ? "Занятий не было" : "Свободный день"}</h2><p>${S.onlyMand ? "Обязательных занятий нет." : "В этот день ничего не стоит."}</p>${nxt ? `<button class="jump ${colorOf(nxt.t)}" data-goto="${nxt.s.slice(0, 10)}"><small>Следующее: ${WD_S[dow(nxt.s)]}, ${dnum(nxt.s)} ${MON_G[toD(nxt.s).getUTCMonth()]} · ${nxt.s.slice(11)}</small><b>${esc(nxt.t)}</b></button>` : ""}</div>`;
+      html += `<div class="free"><h2>${day < today ? t("free_past") : t("free_day")}</h2><p>${S.onlyMand ? t("free_mand") : t("free_none")}</p>${nxt ? `<button class="jump ${colorOf(nxt.t)}" data-goto="${nxt.s.slice(0, 10)}"><small>${t("next_lbl")} ${esc(dayShort(nxt.s.slice(0, 10)))} · ${nxt.s.slice(11)}</small><b>${esc(nxt.t)}</b></button>` : ""}</div>`;
       $("main").innerHTML = html;
       return;
     }
@@ -465,7 +549,7 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
       const clamp = short ? 1 : Math.max(1, Math.floor((ht - 12 - metaLines * 15) / lineH));
       const cls = ["blk", colorOf(e.t), e.m ? "" : "opt", e.x ? "x" : "", e.e <= now ? "past" : "", short ? "short" : "", narrow ? "narrow" : ""].join(" ");
       const meta = short ? `<span class="bm"><span class="tm">${e.s.slice(11)}</span></span>` :
-        `<span class="bm"><span class="tm">${e.s.slice(11)}–${e.e.slice(11)}</span>${e.l?.length ? " · " + esc(e.l.join(", ")) : ""}${e.n > 1 ? " · " + e.n + " " + plural(e.n, "слот", "слота", "слотов") : ""}</span>`;
+        `<span class="bm"><span class="tm">${e.s.slice(11)}–${e.e.slice(11)}</span>${e.l?.length ? " · " + esc(e.l.join(", ")) : ""}${e.n > 1 ? " · " + cnt(e.n, "slots") : ""}</span>`;
       blocks += `<button class="${cls}" data-id="${e.i}" style="top:${top}px;height:${ht}px;left:calc(${c * w}% + 3px);width:calc(${w}% - 6px)"><span class="bt" lang="de" style="-webkit-line-clamp:${clamp}">${esc(e.t)}</span>${meta}</button>`;
     }
     let nowl = "";
@@ -477,7 +561,7 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
   // ---------- list / search ----------
   function chip(e) {
     const cls = ["chip", colorOf(e.t), e.m ? "" : "opt", e.x ? "x" : ""].join(" ");
-    const meta = [`<span class="tm">${e.s.slice(11)}–${e.e.slice(11)}</span>`, e.l?.length ? esc(e.l.join(", ")) : "", e.n > 1 ? `${e.n} ${plural(e.n, "слот", "слота", "слотов")}` : "", e.x ? "отменено" : ""].filter(Boolean).join(" · ");
+    const meta = [`<span class="tm">${e.s.slice(11)}–${e.e.slice(11)}</span>`, e.l?.length ? esc(e.l.join(", ")) : "", e.n > 1 ? cnt(e.n, "slots") : "", e.x ? t("cx_chip") : ""].filter(Boolean).join(" · ");
     return `<button class="${cls}" data-id="${e.i}"><span class="ct" lang="de">${esc(e.t)}</span><span class="cm">${meta}</span></button>`;
   }
   function agenda(list, now, limit) {
@@ -486,9 +570,9 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
     let html = "", month = "", shown = 0, anchored = false;
     for (const [d, evs] of groups) {
       if (shown >= limit) break;
-      if (d.slice(0, 7) !== month) { month = d.slice(0, 7); html += `<div class="ag-month">${MON_N[toD(d).getUTCMonth()]} ${toD(d).getUTCFullYear()}</div>`; }
+      if (d.slice(0, 7) !== month) { month = d.slice(0, 7); html += `<div class="ag-month">${monthName(d)} ${toD(d).getUTCFullYear()}</div>`; }
       const anchor = !anchored && d >= today; if (anchor) anchored = true;
-      html += `<div class="ag-day${d === today ? " tod" : ""}${d < today ? " past" : ""}"${anchor ? ' id="ag-now"' : ""}><div class="ag-date"><div class="w">${WD_S[dow(d)]}</div><div class="n">${dnum(d)}</div></div><div class="ag-list">${evs.map(chip).join("")}</div></div>`;
+      html += `<div class="ag-day${d === today ? " tod" : ""}${d < today ? " past" : ""}"${anchor ? ' id="ag-now"' : ""}><div class="ag-date"><div class="w">${wdS(d)}</div><div class="n">${dnum(d)}</div></div><div class="ag-list">${evs.map(chip).join("")}</div></div>`;
       shown++;
     }
     return { html, more: groups.size > shown };
@@ -496,15 +580,15 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
   function renderList(now) {
     const from = monday(now.slice(0, 10));
     const list = vis().filter(e => e.s.slice(0, 10) >= from);
-    if (!list.length) { $("main").innerHTML = `<div class="state"><h2>Дальше занятий нет</h2><p>В ev3nts пока ничего не запланировано.</p></div>`; return; }
+    if (!list.length) { $("main").innerHTML = `<div class="state"><h2>${t("list_none_h")}</h2><p>${t("list_none_p")}</p></div>`; return; }
     const { html, more } = agenda(list, now, S.listLimit);
-    $("main").innerHTML = html + (more ? `<button class="more" id="more">Показать ещё</button>` : "");
+    $("main").innerHTML = html + (more ? `<button class="more" id="more">${t("more")}</button>` : "");
   }
   function renderSearch(now) {
     const q = S.query.toLowerCase();
     const hits = vis().filter(e => [e.t, e.u, ...(e.l || []), ...(e.p || [])].some(x => x && x.toLowerCase().includes(q)));
-    if (!hits.length) { $("main").innerHTML = `<div class="state"><h2>Ничего не найдено</h2><p>Попробуйте часть названия, номер аудитории или фамилию.</p></div>`; return; }
-    $("main").innerHTML = `<div class="count">${hits.length} ${plural(hits.length, "совпадение", "совпадения", "совпадений")}</div>` + agenda(hits, now, 1e9).html;
+    if (!hits.length) { $("main").innerHTML = `<div class="state"><h2>${t("none_h")}</h2><p>${t("none_p")}</p></div>`; return; }
+    $("main").innerHTML = `<div class="count">${cnt(hits.length, "hits")}</div>` + agenda(hits, now, 1e9).html;
   }
 
   // ---------- sheet ----------
@@ -526,20 +610,20 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
     const e = byId(id); if (!e) return;
     lastFocus = document.activeElement;
     const d = toD(e.s.slice(0, 10));
-    const tags = [e.x ? `<span class="tag cx">Отменено</span>` : "", e.m ? `<span class="tag req">Обязательно</span>` : `<span class="tag">По желанию</span>`, e.n > 1 ? `<span class="tag">${e.n} ${plural(e.n, "слот", "слота", "слотов")} по ${Math.round(diffMin(e.e, e.s) / e.n)} мин</span>` : ""].join("");
+    const tags = [e.x ? `<span class="tag cx">${t("cx_tag")}</span>` : "", e.m ? `<span class="tag req">${t("req_tag")}</span>` : `<span class="tag">${t("opt_tag")}</span>`, e.n > 1 ? `<span class="tag">${t("slots_each", e.n, pl(e.n, "slots"), Math.round(diffMin(e.e, e.s) / e.n))}</span>` : ""].join("");
     $("sheet-root").innerHTML = `<div class="scrim" data-close></div>
       <div class="sheet ${colorOf(e.t)}" role="dialog" aria-modal="true" aria-labelledby="sh-t">
         <div class="grab"></div>
-        <button class="ib sh-x" data-close aria-label="Закрыть">${IC.x}</button>
+        <button class="ib sh-x" data-close aria-label="${t("close")}">${IC.x}</button>
         <div class="sh-top"><span class="sh-sw"></span><div class="sh-t" id="sh-t" lang="de">${esc(e.t)}${e.u ? `<div class="sh-sub">${esc(e.u)}</div>` : ""}</div></div>
         <div class="sh-rows">
-          <div class="sh-row">${IC.clock}<div>${WD_L[d.getUTCDay()]}, ${d.getUTCDate()} ${MON_G[d.getUTCMonth()]}<br><b style="font-weight:600">${e.s.slice(11)} – ${e.e.slice(11)}</b><div class="tags">${tags}</div></div></div>
+          <div class="sh-row">${IC.clock}<div>${esc(dayLong(e.s.slice(0, 10)))}<br><b style="font-weight:600">${e.s.slice(11)} – ${e.e.slice(11)}</b><div class="tags">${tags}</div></div></div>
           ${e.l?.length ? `<div class="sh-row">${IC.pin}<div>${esc(e.l.join(", "))}</div></div>` : ""}
           ${e.p?.length ? `<div class="sh-row">${IC.ppl}<div>${esc(e.p.join(", "))}</div></div>` : ""}
-          ${e.a?.length ? `<div class="sh-row">${IC.grp}<div>Обязательно для: ${esc(e.a.join(", "))}</div></div>` : ""}
+          ${e.a?.length ? `<div class="sh-row">${IC.grp}<div>${t("req_for")} ${esc(e.a.join(", "))}</div></div>` : ""}
           <div class="sh-act">
-          <a class="pri" href="${esc(gcal(e))}" target="_blank" rel="noopener">В Google Календарь</a>
-          <a href="${SRC}?from=${e.s.slice(0, 10)}&amp;to=${e.s.slice(0, 10)}" target="_blank" rel="noopener">Открыть в ev3nts</a>
+          <a class="pri" href="${esc(gcal(e))}" target="_blank" rel="noopener">${t("to_gcal")}</a>
+          <a href="${SRC}?from=${e.s.slice(0, 10)}&amp;to=${e.s.slice(0, 10)}" target="_blank" rel="noopener">${t("open_ev")}</a>
         </div>
           ${e.d ? `<div class="sh-row">${IC.txt}<div class="sh-desc">${esc(e.d.replace(/\n\s*\n/g, "\n"))}</div></div>` : ""}
         </div>
@@ -552,15 +636,15 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
 
   // ---------- theme menu ----------
   const SKINS = [
-    { id: "auto", name: "Авто" },
-    { id: "light", name: "Светлая", c: ["#f6f7f5", "#ffffff", "#2c7a66", "#dfeee8", "#1c2320"] },
-    { id: "dark", name: "Тёмная", c: ["#111513", "#191e1b", "#74c6ae", "#1d2f28", "#e3e8e5"] },
-    { id: "pink", name: "Розовая", c: ["#fff0f5", "#ffffff", "#e04f8b", "#ffe0ec", "#3b1c2b"] },
-    { id: "barbie", name: "Барби", c: ["#ffd3e8", "#fff4f9", "#e5007d", "#ff9fcf", "#4b0b2f"] },
-    { id: "lavender", name: "Лаванда", c: ["#f4f1fb", "#ffffff", "#7a5bd6", "#ebe4fb", "#2a2340"] },
-    { id: "mint", name: "Мята", c: ["#eefaf5", "#ffffff", "#129f7b", "#d3f2e6", "#16332a"] },
-    { id: "film", name: "Плёнка", c: ["#15110c", "#1f1912", "#f2b13c", "#41301a", "#f2e7d3"] },
-    { id: "neon", name: "Неон", c: ["#0c0a19", "#15122a", "#ff3df2", "#0f3a3a", "#eeebff"] },
+    { id: "auto" },
+    { id: "light", c: ["#f6f7f5", "#ffffff", "#2c7a66", "#dfeee8", "#1c2320"] },
+    { id: "dark", c: ["#111513", "#191e1b", "#74c6ae", "#1d2f28", "#e3e8e5"] },
+    { id: "pink", c: ["#fff0f5", "#ffffff", "#e04f8b", "#ffe0ec", "#3b1c2b"] },
+    { id: "barbie", c: ["#ffd3e8", "#fff4f9", "#e5007d", "#ff9fcf", "#4b0b2f"] },
+    { id: "lavender", c: ["#f4f1fb", "#ffffff", "#7a5bd6", "#ebe4fb", "#2a2340"] },
+    { id: "mint", c: ["#eefaf5", "#ffffff", "#129f7b", "#d3f2e6", "#16332a"] },
+    { id: "film", c: ["#15110c", "#1f1912", "#f2b13c", "#41301a", "#f2e7d3"] },
+    { id: "neon", c: ["#0c0a19", "#15122a", "#ff3df2", "#0f3a3a", "#eeebff"] },
   ];
   let skin = ls.get("fa.skin", "auto");
   function applySkin(id) {
@@ -573,28 +657,64 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
     const pv = t.id === "auto"
       ? `<div class="th-pv th-auto"></div>`
       : `<div class="th-pv" style="background:${t.c[0]}"><i style="background:${t.c[4]};width:60%;opacity:.85"></i><b style="background:${t.c[2]}"></b><b style="background:${t.c[3]}"></b><i style="background:${t.c[4]};width:40%;opacity:.35"></i></div>`;
-    return `<button class="th" data-skin="${t.id}" aria-pressed="${skin === t.id}">${pv}<span>${t.name}</span></button>`;
+    return `<button class="th" data-skin="${t.id}" aria-pressed="${skin === t.id}">${pv}<span>${T[lang].skins[t.id]}</span></button>`;
   }
   function openThemes() {
     lastFocus = document.activeElement;
     $("sheet-root").innerHTML = `<div class="scrim" data-close></div>
       <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="th-t">
         <div class="grab"></div>
-        <button class="ib sh-x" data-close aria-label="Закрыть">${IC.x}</button>
-        <div class="th-title" id="th-t">Тема</div>
+        <button class="ib sh-x" data-close aria-label="${t("close")}">${IC.x}</button>
+        <div class="th-title" id="th-t">${t("theme_title")}</div>
         <div class="th-grid">${SKINS.map(themeTile).join("")}</div>
-        <div class="th-note">«Авто» повторяет тему телефона. Выбор сохраняется на этом устройстве.</div>
+        <div class="th-note">${t("theme_note")}</div>
       </div>`;
     document.body.style.overflow = "hidden";
+  }
+
+  // ---------- language menu ----------
+  function applyStatic() {
+    document.documentElement.lang = lang;
+    document.title = t("doc");
+    $("lang-code").textContent = lang.toUpperCase();
+    $("btn-lang").setAttribute("aria-label", t("lang_aria"));
+    $("btn-theme").setAttribute("aria-label", t("theme_aria"));
+    $("btn-search").setAttribute("aria-label", t("search_aria"));
+    $("today").setAttribute("aria-label", t("today_aria"));
+    $("q").placeholder = t("search_ph");
+    $("seg").setAttribute("aria-label", t("view_aria"));
+    document.querySelector('[data-view="day"]').textContent = t("day");
+    document.querySelector('[data-view="list"]').textContent = t("list");
+    $("f-mand-t").textContent = t("mand");
+    $("gc-sub").textContent = t("sub_gc");
+    $("ics-all").textContent = t("ics_all");
+    $("ics-mand").textContent = t("ics_mand");
+    if ($("load-h")) { $("load-h").textContent = t("load_h"); $("load-p").textContent = t("load_p"); }
+  }
+  function openLangs() {
+    lastFocus = document.activeElement;
+    $("sheet-root").innerHTML = `<div class="scrim" data-close></div>
+      <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="lg-t">
+        <div class="grab"></div>
+        <button class="ib sh-x" data-close aria-label="${t("close")}">${IC.x}</button>
+        <div class="th-title" id="lg-t">${t("lang_title")}</div>
+        <div class="lg-list">${Object.entries(LANGS).map(([k, v]) => `<button class="lg" data-lang="${k}" lang="${k}" aria-pressed="${k === lang}">${v.name}<small>${k.toUpperCase()}</small></button>`).join("")}</div>
+      </div>`;
+    document.body.style.overflow = "hidden";
+  }
+  function setLang(k) {
+    if (!LANGS[k]) return;
+    lang = k; ls.set("fa.lang", k);
+    applyStatic(); closeSheet(); render();
   }
 
   // ---------- footer / export ----------
   function renderFooter() {
     const d = S.data; if (!d) return;
-    const f = (iso) => { try { return new Intl.DateTimeFormat("ru-RU", { timeZone: TZ, day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(iso)); } catch { return iso; } };
-    let t = `Расписание изменилось ${f(d.changedAt)} · ${d.count} ${plural(d.count, "занятие", "занятия", "занятий")} · ev3nts проверяется каждые 2 часа`;
-    if (d.syncError && d.syncErrorAt && d.syncErrorAt > d.checkedAt) t += ` · Последняя попытка (${f(d.syncErrorAt)}) не удалась: ${d.syncError}`;
-    $("sync").textContent = t;
+    const f = (iso) => { try { return new Intl.DateTimeFormat(LANGS[lang].loc, { timeZone: TZ, day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(iso)); } catch { return iso; } };
+    let line = t("foot", f(d.changedAt), cnt(d.count, "classes"));
+    if (d.syncError && d.syncErrorAt && d.syncErrorAt > d.checkedAt) line += t("foot_err", f(d.syncErrorAt), d.syncError);
+    $("sync").textContent = line;
   }
   let tt; function toast(m) { const t = $("toast"); t.textContent = m; t.hidden = false; clearTimeout(tt); tt = setTimeout(() => t.hidden = true, 3200); }
 
@@ -635,6 +755,7 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
     if (j) { S.sel = j.dataset.jump; S.view = "day"; ls.set("fa.view2", "day"); $("mini").hidden = true; $("month").setAttribute("aria-expanded", "false"); render(); scrollTo({ top: 0 }); }
   });
   $("btn-theme").onclick = openThemes;
+  $("btn-lang").onclick = openLangs;
   $("btn-search").onclick = () => {
     const box = $("search-box"), open = box.hidden;
     box.hidden = !open; $("btn-search").setAttribute("aria-pressed", String(open));
@@ -644,6 +765,8 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
   $("q").addEventListener("keydown", (ev) => { if (ev.key === "Enter") ev.target.blur(); });
   document.addEventListener("click", (ev) => {
     if (ev.target.closest("[data-close]")) { closeSheet(); return; }
+    const lg = ev.target.closest(".lg[data-lang]");
+    if (lg) { setLang(lg.dataset.lang); return; }
     const th = ev.target.closest(".th[data-skin]");
     if (th) { applySkin(th.dataset.skin); document.querySelectorAll(".th[data-skin]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.skin === skin))); return; }
     if (ev.target.closest(".sheet")) return;
@@ -673,6 +796,7 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
   $("gc-sub").href = "https://calendar.google.com/calendar/render?cid=" + encodeURIComponent(new URL("Filmakademie-alle.ics", location.href).href.replace(/^https?:/, "webcal:"));
 
   S.sel = nowStr().slice(0, 10);
+  applyStatic();
   render();
   setInterval(() => { if (!$("sheet-root").innerHTML) render(); }, 60_000);
 
@@ -686,7 +810,7 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.
       if (d.hash !== lastHash || d.checkedAt !== S.data?.checkedAt) { lastHash = d.hash; S.data = d; if (!$("sheet-root").innerHTML) render(); }
       if (first) { first = false; scrollToNow(); }
     } catch (err) {
-      if (!S.data) $("main").innerHTML = `<div class="state"><h2>Не удалось загрузить расписание</h2><p>Проверьте интернет и обновите страницу.</p></div>`;
+      if (!S.data) $("main").innerHTML = `<div class="state"><h2>${t("fail_h")}</h2><p>${t("fail_p")}</p></div>`;
     }
   }
   load();
